@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <unistd.h>
 #include "hdc1000.h"
 
 int main(void)

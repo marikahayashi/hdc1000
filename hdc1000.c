@@ -7,9 +7,16 @@
 static int hdc1000fd;
 static unsigned char aucRawdata[4];
 
+/*************************************
+hdc1000_init
+ initialize i2c
+ Argument:
+   ucAddr: device address ex. 0x40
+ Return value:
+ *************************************/
 int hdc1000_init(unsigned char ucAddr)
 {
-  hdc1000fd = wiringPiI2CSetup(0x40);
+  hdc1000fd = wiringPiI2CSetup(ucAddr);
   if (hdc1000fd < 0) {
     perror("hdc1000_init:wiringPiI2CSetup");
     return -1;
@@ -21,6 +28,13 @@ int hdc1000_init(unsigned char ucAddr)
   return 0;
 }
 
+
+/*************************************
+hdc1000_read_temp_humid
+ start AD conversion, wait, then read 4 bytes.
+ Argument:void
+ Return value: status
+ *************************************/
 int hdc1000_read_temp_humid(void)
 {
   int ret;
@@ -45,6 +59,15 @@ int hdc1000_read_temp_humid(void)
   return 0;
 }
 
+
+/*************************************
+hdc1000_calc_physical_quantity()
+ convert raw ad value to physical quantity
+ Argument:
+   pfTdata (o): temperature
+   pfHdata (o): humidity
+ Return value:void
+ *************************************/
 void hdc1000_calc_physical_quantity(float *pfTdata, float *pfHdata)
 {
   int nTdata, nHdata;
